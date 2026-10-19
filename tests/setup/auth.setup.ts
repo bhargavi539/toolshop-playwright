@@ -18,8 +18,8 @@ async function login(request:APIRequestContext){
 async function createUser(request:APIRequestContext){
     const response = await request.post('/users/register',{
         data:{
-                first_name: "QA",
-                last_name: "Detective",
+                first_name: "qa",
+                last_name: "detective",
                 address: {
                 street: "Street 1",
                 house_number: "12",

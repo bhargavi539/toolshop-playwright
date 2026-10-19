@@ -33,6 +33,7 @@ export default defineConfig({
     {
       name: 'api',
       testDir: './tests/api',
+      dependencies: ['setup'],
       use: { baseURL: process.env.API_URL },
     },
 
