@@ -1,5 +1,4 @@
 import {test, expect} from '@playwright/test';
-import fs from 'fs';
 
 test("Valid user login with API", {tag:['@api','@smoke']},async({request})=>{
 
