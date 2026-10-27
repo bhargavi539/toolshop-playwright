@@ -52,28 +52,3 @@ test("create an order through the API",{tag:['@api','@regression']},async({reque
     expect(result).toBeTruthy();
 
 });
-
-/* test("get first product details",{tag:['@api']},async({request})=>{
-    const productdetails = await getFirstProduct(request);
-    console.log(productdetails.id);
-    console.log(productdetails.name);
-
-})
-
-test("print cartId",{tag:['@api']},async({request})=>{
-    const cartCode = await createCart(request);
-    console.log(cartCode);
-    expect(cartCode).toBeTruthy();
-})
-
-test("print cartId",{tag:['@api']},async({request})=>{
-    const cartCode = await createCart(request);
-    console.log(cartCode);
-    expect(cartCode).toBeTruthy();
-}) */
-
-/* 
-
-async function createInvoice(request:APIRequestContext) {
-    
-} */
