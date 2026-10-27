@@ -1,44 +1,11 @@
-import {APIRequestContext, expect, test as setup} from '@playwright/test';
+import { expect, test as setup} from '@playwright/test';
 import fs from 'fs';
+import { login, createUser } from '../../api/auth';
 
 const authFile = '.auth/user.json';
 
-// Helper 1: call the login endpoint and return the response
-async function login(request:APIRequestContext){
-    return await request.post('/users/login',{
-        data:{
-            email:process.env.USER_EMAIL,
-            password:process.env.USER_PASSWORD,
-        },
-    });
-
-}
-
-// Helper 2: create the test user (only used when login fails)
-async function createUser(request:APIRequestContext){
-    const response = await request.post('/users/register',{
-        data:{
-                first_name: "qa",
-                last_name: "detective",
-                address: {
-                street: "Street 1",
-                house_number: "12",
-                city: "Viby",
-                state: "AJ",
-                country: "Ireland",
-                postal_code: "1234"
-                },
-                phone: "0987654321",
-                dob: "1990-01-01",
-                password: process.env.USER_PASSWORD,
-                email: process.env.USER_EMAIL
-            },
-        });
-        await expect(response).toBeOK();
-    
-}
-
 setup('log in through the API and save the session',async({request})=>{
+
     //1. Try to login
     let response = await login(request);
 
