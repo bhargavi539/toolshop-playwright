@@ -1,18 +1,20 @@
 import { APIRequestContext, expect, test } from "@playwright/test";
 
+type Product = {id: string, price: string};
 
-async function getFirstProduct(request:APIRequestContext) {
+
+async function getFirstProduct(request:APIRequestContext): Promise<Product>{
     const response = await request.get('/products');
-        expect(response.status()).toBe(200);
+    expect(response.status()).toBe(200);
 
-        const body = await response.json();
-        expect(Array.isArray(body.data)).toBe(true);
-        expect(body.data.length).toBeGreaterThan(0);
+    const body = await response.json();
+    expect(Array.isArray(body.data)).toBe(true);
+    expect(body.data.length).toBeGreaterThan(0);
 
-        const firstProduct = body.data[0];
-        const productId = firstProduct.id;
-        expect(typeof firstProduct.price).toBe('number');
-        return productId;
+    const firstProduct = body.data[0];
+    expect(typeof firstProduct.price).toBe('number');
+    
+    return { id: firstProduct.id, price:firstProduct.price };
         
 }
 async function createCart(request:APIRequestContext) {
@@ -55,15 +57,15 @@ async function getCart(request:APIRequestContext,cartId:string,){
 }
 
 test("create an order through the API",{tag:['@api','@regression']},async({request})=>{
-    const productId = await getFirstProduct(request);
+    const product = await getFirstProduct(request);
     const cartId = await createCart(request);
-    const result = await addItemToCart(request, productId, cartId);
+    const result = await addItemToCart(request, product.id, cartId);
     expect(result).toBeTruthy();
 
     const cart = await getCart(request,cartId);
     expect(Array.isArray(cart.cart_items)).toBe(true);
     expect(cart.cart_items).toHaveLength(1);
-    expect(cart.cart_items[0].product_id).toBe(productId);
+    expect(cart.cart_items[0].product_id).toBe(product.id);
     expect(cart.cart_items[0].quantity).toBe(1);
     expect(cart.id).toBe(cartId);
 
