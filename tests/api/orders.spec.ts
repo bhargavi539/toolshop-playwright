@@ -1,7 +1,7 @@
 import { APIRequestContext, expect, test } from "@playwright/test";
+import { login } from "../../api/auth";
 
 type Product = {id: string, price: string};
-
 
 async function getFirstProduct(request:APIRequestContext): Promise<Product>{
     const response = await request.get('/products');
@@ -56,6 +56,19 @@ async function getCart(request:APIRequestContext,cartId:string,){
 
 }
 
+async function getToken(request:APIRequestContext):Promise<string>{
+
+    const response = await login(request);
+    expect(response.status()).toBe(200);
+
+    const body = await response.json();
+    expect(body).toHaveProperty("access_token");
+    expect(body.access_token).toBeTruthy();
+    const accessToken = body.access_token;
+    return accessToken;
+    
+}
+
 test("create an order through the API",{tag:['@api','@regression']},async({request})=>{
     const product = await getFirstProduct(request);
     const cartId = await createCart(request);
@@ -69,4 +82,6 @@ test("create an order through the API",{tag:['@api','@regression']},async({reque
     expect(cart.cart_items[0].quantity).toBe(1);
     expect(cart.id).toBe(cartId);
 
+    const token = await getToken(request);
+    expect(token).toBeTruthy();
 });
