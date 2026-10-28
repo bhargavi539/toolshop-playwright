@@ -10,7 +10,7 @@ setup('log in through the API and save the session',async({request})=>{
     let response = await login(request);
 
     // 2. If login failed, the account is probably gone: create it, then log in again
-    if(!response.ok()){
+    if(response.status()=== 401){
         await createUser(request);
         response = await login(request);
     }
