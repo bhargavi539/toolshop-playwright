@@ -1,10 +1,8 @@
-import { expect, test } from "@playwright/test";
-import { ApiClient } from "../../api/ApiClient";
+import { expect, test } from "../../fixtures/base";
 import { billingDetails } from "../../api/testData";
 
-test("create an order through the API",{tag:['@api','@regression']},async({request})=>{
+test("create an order through the API",{tag:['@api','@regression']},async({api})=>{
 
-    const api = new ApiClient(request);
     const product = await api.getFirstProduct();
     const cartId = await api.createCart();
     const result = await api.addItemToCart(product.id, cartId);
