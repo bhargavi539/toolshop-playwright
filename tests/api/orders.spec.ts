@@ -1,8 +1,10 @@
 import { expect, test } from "../../fixtures/base";
 import { billingDetails } from "../../api/testData";
 
-test("create an order through the API",{tag:['@api','@regression']},async({api})=>{
-
+test(
+  "create an order through the API",
+  { tag: ["@api", "@regression"] },
+  async ({ api, token }) => {
     const product = await api.getFirstProduct();
     const cartId = await api.createCart();
     const result = await api.addItemToCart(product.id, cartId);
@@ -15,7 +17,6 @@ test("create an order through the API",{tag:['@api','@regression']},async({api})
     expect(cart.cart_items[0].quantity).toBe(1);
     expect(cart.id).toBe(cartId);
 
-    const token = await api.getToken();
     expect(token).toBeTruthy();
 
     const invoice = await api.createInvoice(token, cartId);
@@ -23,10 +24,13 @@ test("create an order through the API",{tag:['@api','@regression']},async({api})
     expect(invoice.billing_street).toBe(billingDetails.billing_street);
     expect(invoice.billing_city).toBe(billingDetails.billing_city);
     expect(invoice.billing_country).toBe(billingDetails.billing_country);
-    expect(invoice.billing_postal_code).toBe(billingDetails.billing_postal_code);
+    expect(invoice.billing_postal_code).toBe(
+      billingDetails.billing_postal_code,
+    );
 
     //Asserting that the total amount of the invoice is equal to the price of the product added to the cart
     expect(invoice).toHaveProperty("total");
-    expect(typeof invoice.total).toBe('number');
+    expect(typeof invoice.total).toBe("number");
     expect(invoice.total).toBe(product.price);
-});
+  },
+);
