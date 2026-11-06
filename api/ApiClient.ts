@@ -7,6 +7,7 @@ export class ApiClient {
     constructor(private request: APIRequestContext) {
         }
     
+        
     async getFirstProduct(): Promise<Product>{
         // Get the first product from the API and return its id and price
     const response = await this.request.get('/products');

@@ -18,6 +18,7 @@ export default defineConfig({
   use: {
     baseURL: process.env.BASE_URL,
     trace: 'on-first-retry',
+    testIdAttribute: 'data-test',
   },
   
     projects: [
@@ -42,17 +43,18 @@ export default defineConfig({
       name: 'ui',
       testDir: './tests/ui',
       dependencies: ['setup'],
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'],
+      baseURL: process.env.BASE_URL,
+      },
     },
 
-    // 4. E2E tests: Chromium, starts already logged in
+    // 4. E2E tests: Chromium, starts logged out.
     {
       name: 'e2e',
       testDir: './tests/e2e',
       dependencies: ['setup'],
       use: {
         ...devices['Desktop Chrome'],
-        storageState: '.auth/user.json',
       },
     },
   ],
