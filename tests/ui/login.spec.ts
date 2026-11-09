@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import  { LoginPage } from '../../pages/LoginPage';
 import path from 'path';
 
@@ -13,7 +13,7 @@ const invalidLoginMessage = 'Invalid email or password';
 test.describe('Login Page',{tag:['@ui']}, ()=>{
     test('login with a valid email and a wrong password',async ({page})=>{
         const loginPage = new LoginPage(page);
-        await loginPage.goto();
+        await loginPage.gotoPage();
         await loginPage.login(validEmail, invalidPassword);
 
         //Assert that the correct error message is visible
@@ -29,7 +29,7 @@ test.describe('Login Page',{tag:['@ui']}, ()=>{
 
         const myAccountHeading = page.getByRole('heading',{name:'My account'})
         const loginPage = new LoginPage(page);
-        await loginPage.goto();
+        await loginPage.gotoPage();
         await loginPage.login(validEmail, validPassword);
 
         //assert the page navigates to Myaccount page after successful login
