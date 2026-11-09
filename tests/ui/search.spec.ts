@@ -3,6 +3,10 @@ import { SearchPage } from "../../pages/SearchPage";
 
 
 const searchTerm = 'Hammer';
+const wrongSearchTerm = 'zzzz';
+
+const searchedFor = 'Searched for: ';
+const noResultsText = 'There are no products found.';
 
 test(`Search for a product "${searchTerm}"`,{tag:['@ui']},async({page})=>{
 
@@ -22,6 +26,26 @@ test(`Search for a product "${searchTerm}"`,{tag:['@ui']},async({page})=>{
     for(const productName of productNames){
         //3. Assert that each product name contains the search term (case-insensitive)
         expect(productName.toLowerCase()).toContain(searchTerm.toLowerCase());
+        
     }   
 
-})
+});
+
+test(`Search for a wrong product "${wrongSearchTerm}"`,{tag:['@ui']},async({page})=>{
+
+    
+    const searchPage = new SearchPage(page);
+    await searchPage.gotoPage();
+    await searchPage.search(wrongSearchTerm);   
+
+    await expect(searchPage.searchCaption).toHaveText(searchedFor + wrongSearchTerm);
+    await expect(searchPage.productNames).toHaveCount(0);
+    await expect(searchPage.noResultsMessage).toHaveText(noResultsText);
+
+});
+
+    
+    
+    
+
+
