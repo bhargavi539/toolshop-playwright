@@ -27,7 +27,7 @@ test(`Search for a product "${searchTerm}"`,{tag:['@ui']},async({page})=>{
         //3. Assert that each product name contains the search term (case-insensitive)
         expect(productName.toLowerCase()).toContain(searchTerm.toLowerCase());
         
-    }   
+    } 
 
 });
 

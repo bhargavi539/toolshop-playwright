@@ -13,7 +13,9 @@ export class SearchPage{
         this.page = page;
         this.searchInput = page.getByTestId('search-query');
         this.searchButton = page.getByTestId('search-submit');
-        this.productNames = page.getByTestId('product-name');
+
+        // Locator for product cards in search results
+        this.productNames = page.getByTestId('product-name'); 
         this.searchCaption = page.getByTestId('search-caption');
         this.noResultsMessage = page.getByTestId('no-results');
     }
@@ -27,5 +29,8 @@ export class SearchPage{
         await this.searchButton.click();
     }
 
+    async openFirstProduct(){
+        await this.productNames.first().click();
+    }
 }
 
