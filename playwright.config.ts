@@ -55,6 +55,7 @@ export default defineConfig({
       dependencies: ['setup'],
       use: {
         ...devices['Desktop Chrome'],
+        baseURL:process.env.BASE_URL,
       },
     },
   ],
