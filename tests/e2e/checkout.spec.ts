@@ -3,15 +3,20 @@ import { SearchPage } from "../../pages/SearchPage";
 import { ProductPage } from "../../pages/ProductPage";
 import { CartPage } from "../../pages/CartPage";
 
-const searchTerm = "bolt";
-const toastMessage = "Order placed successfully!";
+const searchTerm = "Hammer";
+const toastMessage = "Product added to shopping cart.";
 
 
-test.describe("Checkout flow",()=>{
+test.describe("Checkout flow",{tag:['@e2e']},()=>{
 
-    test("Should allow users to complete the checkout process",async({loggedInPage})=>{
-        await loggedInPage.goto('/');
-        console.log(loggedInPage.url());
+    test("Complete checkout with bank transfer",async({loggedInPage})=>{
+        const searchPage = new SearchPage(loggedInPage);
+        await searchPage.gotoPage();
+        await searchPage.search(searchTerm);
+
+        await expect(searchPage.productNames.first()).toContainText(searchTerm,{ignoreCase: true});
+        await searchPage.openFirstProduct();
+
 
 
     })
