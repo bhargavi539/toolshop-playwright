@@ -22,7 +22,7 @@ export async function createUser(request:APIRequestContext){
                 house_number: "12",
                 city: "Viby",
                 state: "AJ",
-                country: "Ireland",
+                country: "Denmark",
                 postal_code: "1234"
                 },
                 phone: "0987654321",
